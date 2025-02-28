@@ -4,7 +4,7 @@ import { Head, Link } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 
-export default function Index({ movie, reviews }) {
+export default function Index({ movie, reviews, avg_rating }) {
     const year = (new Date(movie.release_date)).getFullYear();
     return (
         <>
@@ -16,6 +16,12 @@ export default function Index({ movie, reviews }) {
                     </Heading>
                     <p className="text-lg italic mb-3">{year}</p>
                     <p>{movie.description}</p>
+                    {  // Average Rating of all reviews for movie
+                        avg_rating > 0 && <p>Average Rating: {avg_rating}</p>
+                    }
+                    { // Movie has no reviews yet
+                        avg_rating < 0 && <p>No reviews yet.</p>
+                    }
                 </section>
                 <section className="mb-6">
                     <Heading level="h2" className="mt-6 mb-3">

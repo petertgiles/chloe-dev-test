@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 use Inertia\Response;
 use App\Models\Movie;
 use Illuminate\Support\Facades\DB;
@@ -42,9 +43,21 @@ class MovieController extends Controller
     public function view(Request $request, $id)
     {
         $movie = Movie::where('id', $id)->first();
+        $sum_ratings = 0;
+        $num_ratings = 0;
+        // Log::debug($movie->reviews);
+        foreach ($movie->reviews as $review) {
+            $sum_ratings = $sum_ratings + $review->rating;
+            $num_ratings = $num_ratings + 1;
+        }
+        $avg_rating = -1;
+        if ($num_ratings) {
+            $avg_rating = round($sum_ratings / $num_ratings, 1);
+        }
         return Inertia::render('Movies/View', [
             'movie' => $movie,
             'reviews' => $movie->reviews,
+            'avg_rating' => $avg_rating,
         ]);
     }
 
