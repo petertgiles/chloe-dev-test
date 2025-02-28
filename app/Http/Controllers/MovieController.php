@@ -18,17 +18,16 @@ class MovieController extends Controller
     {
         switch ($request->input('sort')) {
             case 'title':
-                $movies = Movie::orderBy('title', 'asc')->get();
+                $movies = Movie::orderBy('title', 'asc')->simplePaginate(10);
                 break;
             case 'date':
-                $movies = Movie::orderBy('release_date', 'desc')->get();
+                $movies = Movie::orderBy('release_date', 'desc')->simplePaginate(10);
                 break;
             case 'avg_rating':
-                $movies = Movie::withAvg('reviews', 'rating')->orderBy('reviews_avg_rating', 'desc')->get();
-
+                $movies = Movie::withAvg('reviews', 'rating')->orderBy('reviews_avg_rating', 'desc')->simplePaginate(10);
                 break;
             default:
-                $movies = Movie::orderBy('title', 'asc')->get();
+                $movies = Movie::orderBy('title', 'asc')->simplePaginate(10);
         }
 
         // This is equivalent to the following:

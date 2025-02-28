@@ -5,6 +5,7 @@ import { Head, Link, usePage } from "@inertiajs/react";
 
 export default function Index({ movies }) {
     const { url } = usePage();
+    console.log(movies);
     return (
         <>
             <Head title="Movies" />
@@ -39,10 +40,28 @@ export default function Index({ movies }) {
                     </li>
                 </ul>
                 <ul className="grid md:grid-cols-2 gap-4 mb-6">
-                    {movies.map((movie) => (
+                    {movies.data.map((movie) => (
                         <MovieCard key={movie.id} {...movie} />
                     ))}
                 </ul>
+                { 
+                movies.prev_page_url && 
+                    <Link
+                        href= {movies.prev_page_url}
+                        className={`border-b-2 ${url.includes("?sort=date") ? "border-indigo" : "border-transparent"}`}
+                    >
+                        Previous Page
+                    </Link>
+                }
+                { 
+                movies.next_page_url && 
+                    <Link
+                        href= {movies.next_page_url}
+                        className={`border-b-2 ${url.includes("?sort=date") ? "border-indigo" : "border-transparent"}`}
+                    >
+                        Next Page
+                    </Link>
+                }
             </NavLayout>
         </>
     );
