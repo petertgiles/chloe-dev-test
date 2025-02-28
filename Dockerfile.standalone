@@ -1,0 +1,49 @@
+# Use the official PHP image as the base image
+FROM php:8.2-fpm
+
+# Set working directory
+WORKDIR /var/www
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    zip \
+    unzip \
+    nodejs \
+    npm
+
+# Install and enable the pcntl extension
+RUN docker-php-ext-install pcntl
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Copy the application code
+COPY . .
+
+# # Ensure there is a .env file
+# RUN cp --no-clobber .env.example .env
+
+# # Install PHP dependencies
+# RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# # Generate an application key
+# RUN php artisan key:generate
+
+# # Initialize database
+# RUN php artisan migrate --force
+
+# # Install npm dependencies
+# RUN npm install
+RUN npm cache clean --force 
+
+# # Build assets
+# RUN npm run build
+COPY startup.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/startup.sh
+
+# Expose port 8000 and start the application
+EXPOSE 8000
+EXPOSE 5173
+CMD ["/usr/local/bin/startup.sh"]

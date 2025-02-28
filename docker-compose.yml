@@ -1,0 +1,46 @@
+services:
+  # composer:
+  #   image: composer 
+  #   command: install --no-interaction
+  #   user: 1000:1000
+  #   volumes:
+  #     - ./:/app
+
+  # assets:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.asset-builder
+  #   working_dir: /usr/src/app
+  #   command: npm run watch
+  #   user: 1000:1000
+  #   ports:
+  #     - 5173:5173
+  #   volumes:
+  #     - ./resources:/usr/src/app/resources
+  #     - ./public:/usr/src/app/public
+
+  # app:
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile.app
+  #   ports:
+  #     - 8000:8000
+  #   user: 1000:1000
+  #   volumes:
+  #     - .:/var/www
+  #   command: php artisan serve --host=0.0.0.0 --port=8000
+  #   depends_on:
+  #     composer:
+  #       condition: service_completed_successfully
+  #     assets:
+  #       condition: service_started
+
+  standalone:
+    build: 
+      context: .
+      dockerfile: Dockerfile.standalone
+    ports:
+      - 8000:8000
+      - 5173:5173
+    volumes:
+      - .:/var/www

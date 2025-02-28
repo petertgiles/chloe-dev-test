@@ -1,0 +1,10 @@
+FROM node:23
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/node_modules
+WORKDIR /usr/src/app
+# Install app dependencies
+COPY ./package.json /usr/src/app/
+RUN npm install
+RUN chmod -R 777 /usr/src/app/node_modules/
