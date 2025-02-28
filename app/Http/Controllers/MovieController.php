@@ -23,6 +23,10 @@ class MovieController extends Controller
             case 'date':
                 $movies = Movie::orderBy('release_date', 'desc')->get();
                 break;
+            case 'avg_rating':
+                $movies = Movie::withAvg('reviews', 'rating')->orderBy('reviews_avg_rating', 'desc')->get();
+
+                break;
             default:
                 $movies = Movie::orderBy('title', 'asc')->get();
         }

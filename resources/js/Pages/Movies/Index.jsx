@@ -29,6 +29,14 @@ export default function Index({ movies }) {
                             Sort by Release Date
                         </Link>
                     </li>
+                    <li>
+                        <Link
+                            href="/movies?sort=avg_rating"
+                            className={`border-b-2 ${url.includes("?sort=avg_rating") ? "border-indigo" : "border-transparent"}`}
+                        >
+                            Sort by Average Rating
+                        </Link>
+                    </li>
                 </ul>
                 <ul className="grid md:grid-cols-2 gap-4 mb-6">
                     {movies.map((movie) => (
